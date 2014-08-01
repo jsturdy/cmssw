@@ -1,4 +1,7 @@
 <lcgdict>
+  <class name="edm::Wrapper<std::map<std::string,double> >"/>
+  <class name="edm::Wrapper<std::map<std::string,float> >"/>
+
  <class name="edm::Wrapper<bool>"/>
  <class name="edm::Wrapper<char>"/>
  <class name="edm::Wrapper<double>"/>

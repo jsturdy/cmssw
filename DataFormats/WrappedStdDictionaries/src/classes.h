@@ -9,6 +9,8 @@
 
 namespace {
   struct dictionary {
+    edm::Wrapper<std::map<std::string,double> > dummyWrappedMapd;
+    edm::Wrapper<std::map<std::string,float > > dummyWrappedMapf;
   edm::Wrapper<std::vector<unsigned long> > dummy1;
   edm::Wrapper<std::vector<unsigned int> > dummy2;
   edm::Wrapper<std::vector<long> > dummy3;

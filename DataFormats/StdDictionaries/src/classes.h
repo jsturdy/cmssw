@@ -8,6 +8,10 @@
 
 namespace {
   struct dictionary {
+    
+    std::map<std::string,double> dummyMapd;
+    std::map<std::string,float > dummyMapf;
+
   std::allocator<char> achar;
   std::allocator<double> adouble;
   std::allocator<int> aint;
