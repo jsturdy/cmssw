@@ -54,12 +54,16 @@ PixelTripletHLTGenerator::~PixelTripletHLTGenerator() {
 }
 
 void PixelTripletHLTGenerator::init( const HitPairGenerator & pairs,
-				     const std::vector<SeedingLayer> & layers,
 				     LayerCacheType* layerCache)
 {
   thePairGenerator = pairs.clone();
-  theLayers = layers;
   theLayerCache = layerCache;
+}
+
+void PixelTripletHLTGenerator::setSeedingLayers(SeedingLayerSetsHits::SeedingLayerSet pairLayers,
+                                                std::vector<SeedingLayerSetsHits::SeedingLayer> thirdLayers) {
+  thePairGenerator->setSeedingLayers(pairLayers);
+  theLayers = thirdLayers;
 }
 
 void PixelTripletHLTGenerator::hitTriplets(const TrackingRegion& region, 
@@ -98,7 +102,7 @@ void PixelTripletHLTGenerator::hitTriplets(const TrackingRegion& region,
   
   // fill the prediction vector
   for (int il=0; il!=size; ++il) {
-    thirdHitMap[il] = &(*theLayerCache)(&theLayers[il], region, ev, es);
+    thirdHitMap[il] = &(*theLayerCache)(theLayers[il], region, ev, es);
     auto const & hits = *thirdHitMap[il];
     ThirdHitRZPrediction<PixelRecoLineRZ> & pred = preds[il];
     pred.initLayer(theLayers[il].detLayer());
@@ -147,6 +151,7 @@ void PixelTripletHLTGenerator::hitTriplets(const TrackingRegion& region,
     ThirdHitPredictionFromInvParabola predictionRPhi(xi-region.origin().x(),yi-region.origin().y(),
 						     xo-region.origin().x(),yo-region.origin().y(),
 						     imppar,curv,extraHitRPhitolerance);
+
     ThirdHitPredictionFromInvParabola predictionRPhitmp(xi,yi,xo,yo,imppartmp,curv,extraHitRPhitolerance);
 
     // printf("++Constr %f %f %f %f %f %f %f\n",xi,yi,xo,yo,imppartmp,curv,extraHitRPhitolerance);     
@@ -187,12 +192,31 @@ void PixelTripletHLTGenerator::hitTriplets(const TrackingRegion& region,
 
 	// std::cout << "++R " << radius.min() << " " << radius.max()  << std::endl;
 
+	/*
 	Range rPhi1m = predictionRPhitmp(radius.max(), -1);
 	Range rPhi1p = predictionRPhitmp(radius.max(),  1);
 	Range rPhi2m = predictionRPhitmp(radius.min(), -1);
 	Range rPhi2p = predictionRPhitmp(radius.min(),  1);
 	Range rPhi1 = rPhi1m.sum(rPhi1p);
 	Range rPhi2 = rPhi2m.sum(rPhi2p);
+	
+	
+	auto rPhi1N = predictionRPhitmp(radius.max());
+	auto rPhi2N = predictionRPhitmp(radius.min());
+
+	std::cout << "VI " 
+		  << rPhi1N.first <<'/'<< rPhi1.first << ' '
+		  << rPhi1N.second <<'/'<< rPhi1.second << ' '
+		  << rPhi2N.first <<'/'<< rPhi2.first << ' '
+		  << rPhi2N.second <<'/'<< rPhi2.second
+		  << std::endl;
+	
+	*/
+
+	auto rPhi1 = predictionRPhitmp(radius.max());
+	auto rPhi2 = predictionRPhitmp(radius.min());
+
+
 	correction.correctRPhiRange(rPhi1);
 	correction.correctRPhiRange(rPhi2);
 	rPhi1.first  /= radius.max();

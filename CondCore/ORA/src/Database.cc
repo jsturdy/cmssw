@@ -46,7 +46,7 @@ namespace ora {
         contHandle = session.createContainer( name, contType );
       } else {
         throwException("Container \""+name+"\" does not exist in the database.",
-                       "Database::insertItem");
+                       "Database::getContainerFromSession");
       }
     }
 
@@ -96,6 +96,10 @@ bool ora::Database::connect( const std::string& connectionString,
 			     const std::string& asRole,
                              bool readOnly ){
   return m_impl->m_session->connect( connectionString, asRole, readOnly );
+}
+
+bool ora::Database::connect( boost::shared_ptr<coral::ISessionProxy>& coralSession, const std::string& connectionString, const std::string& schemaName ){
+  return m_impl->m_session->connect( coralSession, connectionString, schemaName );
 }
 
 void ora::Database::disconnect(){
@@ -297,7 +301,7 @@ ora::Object ora::Database::fetchItem(const OId& oid){
 
 ora::OId ora::Database::insertItem(const std::string& containerName,
                                    const Object& dataObject ){
-  open( true );
+  open( true );  
   Container cont  = getContainerFromSession( containerName, dataObject.type(), *m_impl->m_session );
   int itemId = cont.insertItem( dataObject );
   return OId( cont.id(), itemId );

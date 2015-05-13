@@ -13,12 +13,12 @@ iterativeInitialSeeds.thirdHitSubDetectorNumber = [2]
 iterativeInitialSeeds.thirdHitSubDetectors = [1, 2]
 iterativeInitialSeeds.seedingAlgo = ['InitialPixelTriplets']
 iterativeInitialSeeds.minRecHits = [3] 
-iterativeInitialSeeds.pTMin = [0.3]
+iterativeInitialSeeds.pTMin = [0.4] # it was 0.3
 iterativeInitialSeeds.maxD0 = [1.]
 iterativeInitialSeeds.maxZ0 = [30.]
 iterativeInitialSeeds.numberOfHits = [3]
 iterativeInitialSeeds.originRadius = [1.0] # note: standard tracking uses 0.03, but this value gives a much better agreement in rate and shape for iter0
-iterativeInitialSeeds.originHalfLength = [15.9] 
+iterativeInitialSeeds.originHalfLength = [999] # it was 15.9 
 iterativeInitialSeeds.originpTMin = [0.6] 
 iterativeInitialSeeds.zVertexConstraint = [-1.0]
 iterativeInitialSeeds.primaryVertices = ['none']
@@ -29,8 +29,8 @@ iterativeInitialSeeds.newSyntax = True
 #                                   'BPix1+BPix2+FPix1_neg',
 #                                   'BPix1+FPix1_pos+FPix2_pos',
 #                                   'BPix1+FPix1_neg+FPix2_neg']
-from RecoTracker.TkSeedingLayers.PixelLayerTriplets_cfi import pixellayertriplets
-iterativeInitialSeeds.layerList = pixellayertriplets.layerList
+from RecoTracker.TkSeedingLayers.PixelLayerTriplets_cfi import PixelLayerTriplets
+iterativeInitialSeeds.layerList = PixelLayerTriplets.layerList
 
 # candidate producer
 import FastSimulation.Tracking.TrackCandidateProducer_cfi

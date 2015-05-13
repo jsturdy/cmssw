@@ -4,15 +4,12 @@ function die { echo $1: status $2 ;  exit $2; }
 
 cmsRun ${LOCAL_TEST_DIR}/patTuple_standard_cfg.py || die 'Failure using patTuple_standard_cfg.py' $?
 
-cmsRun ${LOCAL_TEST_DIR}/patTuple_data_cfg.py || die 'Failure using patTuple_data_cfg.py' $?
+# FIXME: event content broken in only available data RelVal
+# cmsRun ${LOCAL_TEST_DIR}/patTuple_data_cfg.py || die 'Failure using patTuple_data_cfg.py' $?
 
 cmsRun ${LOCAL_TEST_DIR}/patTuple_PF2PAT_cfg.py || die 'Failure using patTuple_PF2PAT_cfg.py' $?
 
 cmsRun ${LOCAL_TEST_DIR}/patTuple_PATandPF2PAT_cfg.py || die 'Failure using patTuple_PATandPF2PAT_cfg.py' $?
-
-# cmsRun ${LOCAL_TEST_DIR}/patTuple_PF2PATGsfElectrons_cfg.py || die 'Failure using patTuple_PATandPF2PAT_cfg.py' $?
-
-# cmsRun ${LOCAL_TEST_DIR}/patTuple_pfIso_cfg.py || die 'Failure using patTuple_pfIso_cfg.py' $?
 
 cmsRun ${LOCAL_TEST_DIR}/patTuple_addDecayInFlight_cfg.py || die 'Failure using patTuple_addDecayInFlight_cfg.py' $?
 
